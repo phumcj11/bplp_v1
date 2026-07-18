@@ -4,6 +4,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
+function refreshScrollTriggers() {
+  ScrollTrigger.refresh();
+}
+
 export function Preloader() {
   const [visible, setVisible] = useState(true);
 
@@ -55,6 +59,7 @@ export function SiteEffects({ children }: { children: ReactNode }) {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
     if (reduced) {
       document
         .querySelectorAll(".reveal")
@@ -71,9 +76,16 @@ export function SiteEffects({ children }: { children: ReactNode }) {
       gsap.from(".hero-stagger", {
         y: 34,
         opacity: 0,
-        duration: 0.75,
-        stagger: 0.12,
+        duration: mobile ? 0.55 : 0.75,
+        stagger: mobile ? 0.08 : 0.12,
         ease: "power3.out",
+      });
+      gsap.from(".price-impact", {
+        scale: mobile ? 1.02 : 1.08,
+        opacity: 0,
+        duration: mobile ? 0.45 : 0.6,
+        delay: 0.35,
+        ease: "back.out(1.4)",
       });
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
         ScrollTrigger.create({
@@ -84,14 +96,15 @@ export function SiteEffects({ children }: { children: ReactNode }) {
         });
       });
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element) => {
+        if (mobile) return;
         gsap.to(element, {
-          yPercent: -5,
+          yPercent: -4,
           ease: "none",
           scrollTrigger: {
             trigger: element,
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.5,
+            scrub: 0.45,
           },
         });
       });
@@ -107,7 +120,26 @@ export function SiteEffects({ children }: { children: ReactNode }) {
         });
     }, root);
 
-    return () => context.revert();
+    const images = root.current?.querySelectorAll("img") ?? [];
+    images.forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener("load", refreshScrollTriggers, { once: true });
+    });
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        ScrollTrigger.getAll().forEach((trigger) => trigger.disable(false));
+      } else {
+        ScrollTrigger.getAll().forEach((trigger) => trigger.enable(false));
+        refreshScrollTriggers();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      context.revert();
+    };
   }, []);
 
   return <div ref={root} className="contents">{children}</div>;

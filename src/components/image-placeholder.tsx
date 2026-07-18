@@ -1,5 +1,7 @@
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import type { MediaItem } from "@/data/media";
+import type { SiteImageData } from "@/data/images";
 
 type ImagePlaceholderProps = {
   label: string;
@@ -55,5 +57,35 @@ export function SiteImage({
         className={`object-cover ${imageClassName}`}
       />
     </figure>
+  );
+}
+
+export function MediaImage({
+  media,
+  className = "",
+  imageClassName = "",
+  priority,
+  sizes,
+}: {
+  media: MediaItem | SiteImageData;
+  className?: string;
+  imageClassName?: string;
+  priority?: boolean;
+  sizes?: string;
+}) {
+  const src =
+    "fallbackSrc" in media && media.fallbackSrc
+      ? media.src
+      : media.src;
+
+  return (
+    <SiteImage
+      src={src}
+      alt={media.alt}
+      className={className}
+      imageClassName={imageClassName}
+      priority={priority ?? ("priority" in media ? media.priority : false)}
+      sizes={sizes}
+    />
   );
 }

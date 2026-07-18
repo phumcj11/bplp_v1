@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   BedDouble,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   ExternalLink,
   Menu,
   MessageCircle,
@@ -19,13 +17,14 @@ import { activities, type Activity } from "@/data/activities";
 import { contactData } from "@/data/contact";
 import { faqs } from "@/data/faqs";
 import {
-  activityImages,
-  galleryImages,
-  type SiteImageData,
+  filterGalleryMedia,
+  galleryFilters,
+  getActivityMedia,
+  getRaftMedia,
 } from "@/data/images";
+import type { GalleryFilterId, MediaItem } from "@/data/media";
 import { rafts, type Raft } from "@/data/rafts";
-import { reviewsPlaceholder } from "@/data/reviews";
-import { ImagePlaceholder, SiteImage } from "./image-placeholder";
+import { ImagePlaceholder, MediaImage } from "./image-placeholder";
 
 const nav = [
   ["หน้าแรก", "#home"],
@@ -145,7 +144,7 @@ export function Header() {
 
 export function PriceBadge() {
   return (
-    <div className="hero-stagger inline-flex rotate-[-2deg] items-baseline gap-2 border-2 border-charcoal bg-orange px-5 py-3 text-white shadow-brutal">
+    <div className="price-impact hero-stagger inline-flex rotate-[-2deg] items-baseline gap-2 border-2 border-charcoal bg-orange px-5 py-3 text-white shadow-brutal">
       <span className="text-sm font-bold">เริ่มต้น</span>
       <strong className="font-display text-5xl leading-none md:text-6xl">1,290.-</strong>
       <span className="font-bold">/ท่าน</span>
@@ -156,6 +155,8 @@ export function PriceBadge() {
 const rangeLabels = ["8–14 คน", "16–25 คน", "32–45 คน", "40–60 คน"];
 
 export function RaftCard({ raft }: { raft: Raft }) {
+  const raftMedia = getRaftMedia();
+
   return (
     <motion.article
       key={raft.id}
@@ -164,7 +165,17 @@ export function RaftCard({ raft }: { raft: Raft }) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <ImagePlaceholder label={`ภาพจริงแพ ${raft.id}`} className="min-h-[19rem] border-0 md:min-h-[25rem]" />
+      <div className="relative min-h-[19rem] md:min-h-[25rem]">
+        <MediaImage
+          media={raftMedia}
+          className="absolute inset-0 h-full"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/90 to-transparent p-4 text-white">
+          <p className="text-sm font-bold text-orange">รอรูปแพ {raft.id}</p>
+          <p className="text-xs text-white/80">ภาพแสดงแพบ้านพักล่องแพทั่วไป ยังไม่ยืนยันประเภทแพจากภาพ</p>
+        </div>
+      </div>
       <div className="flex flex-col justify-center p-6 md:p-9">
         <p className="eyebrow">แพแอร์ลากออก • เหมาทั้งหลัง</p>
         <h3 className="text-5xl font-black">แพ {raft.id}</h3>
@@ -244,7 +255,7 @@ export function ActivityBottomSheet({
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [activity, onClose]);
-  const activityImage = activity ? activityImages[activity.id] : undefined;
+  const activityImage = activity ? getActivityMedia(activity.id) : undefined;
 
   return (
     <AnimatePresence>
@@ -268,9 +279,8 @@ export function ActivityBottomSheet({
               <X aria-hidden="true" />
             </button>
             {activityImage ? (
-              <SiteImage
-                src={activityImage.src}
-                alt={activityImage.alt}
+              <MediaImage
+                media={activityImage}
                 className="min-h-[18rem] rounded-2xl"
                 sizes="(max-width: 768px) 100vw, 36rem"
               />
@@ -299,7 +309,7 @@ export function ActivitySlider() {
         <p className="mt-4 text-white/65 md:hidden">ปัดเพื่อดูกิจกรรมเพิ่มเติม</p>
         <div className="snap-row mt-8">
           {activities.map((activity, index) => {
-            const activityImage = activityImages[activity.id];
+            const activityImage = getActivityMedia(activity.id);
             return (
               <button
                 key={activity.id}
@@ -308,9 +318,8 @@ export function ActivitySlider() {
                 onClick={() => setSelected(activity)}
               >
                 {activityImage ? (
-                  <SiteImage
-                    src={activityImage.src}
-                    alt={activityImage.alt}
+                  <MediaImage
+                    media={activityImage}
                     className="absolute inset-0 h-full"
                     imageClassName="transition duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 83vw, 25vw"
@@ -339,7 +348,7 @@ export function Lightbox({
   image,
   onClose,
 }: {
-  image: SiteImageData | null;
+  image: MediaItem | null;
   onClose: () => void;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -356,9 +365,8 @@ export function Lightbox({
       <button ref={closeRef} type="button" onClick={onClose} className="absolute right-4 top-4 grid size-12 place-items-center rounded-full bg-white" aria-label="ปิดภาพ">
         <X aria-hidden="true" />
       </button>
-      <SiteImage
-        src={image.src}
-        alt={image.alt}
+      <MediaImage
+        media={image}
         className="h-[70vh] w-full max-w-5xl rounded-2xl"
         sizes="100vw"
       />
@@ -367,22 +375,38 @@ export function Lightbox({
 }
 
 export function Gallery() {
-  const [active, setActive] = useState<SiteImageData | null>(null);
+  const [active, setActive] = useState<MediaItem | null>(null);
+  const [filter, setFilter] = useState<GalleryFilterId>("all");
+  const images = filterGalleryMedia(filter);
+
   return (
     <section className="section bg-off-white">
       <div className="shell">
         <p className="eyebrow">REAL MOMENTS</p>
         <h2 className="section-title">บรรยากาศจริงจากทริปลูกค้า</h2>
         <p className="mt-4 max-w-2xl text-charcoal/65">
-          ภาพจริงจากบ้านพักล่องแพ ลูกค้า และกิจกรรมบนเขื่อนศรีนครินทร์
+          แสดงเฉพาะภาพที่อนุญาตหรือไม่มีใบหน้าชัด — ภาพอื่นรอตรวจสอบสิทธิ์
         </p>
+        <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="กรองแกลเลอรี">
+          {galleryFilters.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={filter === item.id}
+              className={`button !min-h-10 !px-4 ${filter === item.id ? "button--primary" : "bg-white"}`}
+              onClick={() => setFilter(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
         <div className="snap-row mt-8 lg:grid-cols-3">
-          {galleryImages.map((image, index) => (
-            <button key={image.src} type="button" onClick={() => setActive(image)} className={`overflow-hidden rounded-3xl ${index === 0 || index === 4 ? "lg:row-span-2" : ""}`} aria-label={`เปิด${image.alt}`}>
-              <SiteImage
-                src={image.src}
-                alt={image.alt}
-                className={`min-h-[22rem] ${index === 0 || index === 4 ? "lg:min-h-[38rem]" : ""}`}
+          {images.map((image, index) => (
+            <button key={image.id} type="button" onClick={() => setActive(image)} className={`overflow-hidden rounded-3xl ${index === 0 || index === images.length - 1 ? "lg:row-span-2" : ""}`} aria-label={`เปิด${image.alt}`}>
+              <MediaImage
+                media={image}
+                className={`min-h-[22rem] ${index === 0 || index === images.length - 1 ? "lg:min-h-[38rem]" : ""}`}
                 sizes="(max-width: 768px) 83vw, 33vw"
               />
             </button>
@@ -395,34 +419,29 @@ export function Gallery() {
 }
 
 export function ReviewCarousel() {
-  const [paused, setPaused] = useState(false);
-  useEffect(() => {
-    if (paused) return;
-  }, [paused]);
+  const galleryPreview = filterGalleryMedia("all").slice(0, 3);
+
   return (
     <section id="reviews" className="section bg-deep-water text-white">
       <div className="shell">
-        <p className="eyebrow !text-warm-orange">CUSTOMER VOICES</p>
-        <h2 className="section-title">เสียงจากลูกค้าที่เคยมาพัก</h2>
-        <div
-          className="mt-8 rounded-3xl border-2 border-white/50 bg-white/10 p-7 text-center md:p-12"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocus={() => setPaused(true)}
-          onBlur={() => setPaused(false)}
-          aria-live="polite"
-        >
-          <p className="text-2xl font-bold">{reviewsPlaceholder.message}</p>
-          <p className="mt-3 text-white/65">จะแสดงเฉพาะรีวิวและชื่อลูกค้าที่ตรวจสอบแล้ว</p>
-          <div className="mt-7 flex justify-center gap-3">
-            <button type="button" disabled className="grid size-12 place-items-center rounded-full border border-white opacity-50" aria-label="รีวิวก่อนหน้า">
-              <ChevronLeft aria-hidden="true" />
-            </button>
-            <button type="button" disabled className="grid size-12 place-items-center rounded-full border border-white opacity-50" aria-label="รีวิวถัดไป">
-              <ChevronRight aria-hidden="true" />
-            </button>
-          </div>
+        <p className="eyebrow !text-warm-orange">REAL TRIP PHOTOS</p>
+        <h2 className="section-title">ภาพจริงจากทริปลูกค้า</h2>
+        <p className="mt-4 max-w-2xl text-white/70">
+          ไม่มีข้อความรีวิวสร้างขึ้น — แสดงเฉพาะภาพที่ผ่านการคัดเลือกและสิทธิ์เผยแพร่
+        </p>
+        <div className="snap-row mt-8 lg:grid-cols-3">
+          {galleryPreview.map((image) => (
+            <MediaImage
+              key={image.id}
+              media={image}
+              className="min-h-[16rem] rounded-3xl border border-white/20"
+              sizes="(max-width: 768px) 83vw, 33vw"
+            />
+          ))}
         </div>
+        <p className="mt-6 text-center text-sm text-white/60">
+          หากมีข้อความรีวิวจริง จะเพิ่มใน `src/data/reviews.ts` โดยไม่แก้ความหมาย
+        </p>
       </div>
     </section>
   );

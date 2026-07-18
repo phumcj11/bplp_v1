@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     title: "บ้านพักล่องแพ กาญจนบุรี | แพเหมาส่วนตัว",
     description:
       "ทริป 2 วัน 1 คืน ครบทั้งที่พัก กิจกรรม และอาหาร รองรับกลุ่ม 8–60 คน",
+    images: [
+      {
+        url: "/images/og/og-share.jpg",
+        width: 1200,
+        height: 630,
+        alt: "บ้านพักล่องแพ ทริปล่องแพ 2 วัน 1 คืน เริ่มต้น 1,290 บาท/ท่าน",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

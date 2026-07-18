@@ -11,10 +11,16 @@ import {
   Users,
 } from "lucide-react";
 import { contactData } from "@/data/contact";
-import { experienceImages, galleryImages, heroImages } from "@/data/images";
+import {
+  experienceMediaIds,
+  heroMedia,
+  packageValueMediaIds,
+  getMediaById,
+  getSocialProofMedia,
+} from "@/data/images";
 import { itinerary } from "@/data/itinerary";
 import { siteData } from "@/data/site";
-import { ImagePlaceholder, SiteImage } from "./image-placeholder";
+import { ImagePlaceholder, MediaImage } from "./image-placeholder";
 import { PriceBadge } from "./interactive-sections";
 
 export function Hero() {
@@ -24,9 +30,8 @@ export function Hero() {
       className="paper-edge relative flex min-h-[760px] items-end overflow-hidden bg-charcoal pb-18 pt-28 text-white md:min-h-[820px] md:items-center"
     >
       <div className="hero-visual absolute inset-0">
-        <SiteImage
-          src={heroImages.main.src}
-          alt={heroImages.main.alt}
+        <MediaImage
+          media={heroMedia}
           priority
           sizes="100vw"
           className="h-full"
@@ -69,12 +74,7 @@ export function Hero() {
 }
 
 export function QuickSocialProof() {
-  const images = [
-    galleryImages[0],
-    galleryImages[1],
-    galleryImages[2],
-    galleryImages[3],
-  ];
+  const images = getSocialProofMedia().slice(0, 4);
   return (
     <section className="section !py-16 bg-off-white">
       <div className="shell">
@@ -84,13 +84,12 @@ export function QuickSocialProof() {
         <div className="snap-row mt-7 lg:grid-cols-4">
           {images.map((image, index) => (
             <div
-              key={image.src}
+              key={image.id}
               className="reveal bg-white p-2 pb-8 shadow-lg"
               style={{ transform: `rotate(${index % 2 ? 1 : -1}deg)` }}
             >
-              <SiteImage
-                src={image.src}
-                alt={image.alt}
+              <MediaImage
+                media={image}
                 className="min-h-[16rem]"
                 sizes="(max-width: 768px) 83vw, 25vw"
               />
@@ -115,6 +114,10 @@ const packageHighlights = [
 ];
 
 export function PackageValue() {
+  const supportImages = packageValueMediaIds
+    .map((id) => getMediaById(id))
+    .filter(Boolean);
+
   return (
     <section className="section bg-orange text-charcoal">
       <div className="shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
@@ -125,6 +128,16 @@ export function PackageValue() {
             <span className="block font-bold">เริ่มต้นเพียง</span>
             <strong className="font-display text-6xl leading-none">1,290.-</strong>
             <span className="font-bold"> / ท่าน</span>
+          </div>
+          <div className="mt-6 hidden gap-3 md:grid md:grid-cols-2">
+            {supportImages.slice(0, 4).map((image, index) => (
+              <MediaImage
+                key={image!.id}
+                media={image!}
+                className={`reveal min-h-32 rounded-2xl border-2 border-charcoal ${index === 0 ? "md:col-span-2 md:min-h-40" : ""}`}
+                sizes="(max-width: 768px) 45vw, 20vw"
+              />
+            ))}
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -160,10 +173,9 @@ export function TripExperience() {
           {experiences.map(([title, copy], index) => (
             <article key={title} className="reveal grid items-center gap-6 md:grid-cols-2">
               <div className={index % 2 ? "md:order-2" : ""} data-parallax>
-                {experienceImages[index] ? (
-                  <SiteImage
-                    src={experienceImages[index].src}
-                    alt={experienceImages[index].alt}
+                {experienceMediaIds[index] ? (
+                  <MediaImage
+                    media={getMediaById(experienceMediaIds[index]!)!}
                     className="min-h-[18rem] rounded-[2rem] border-2 border-charcoal md:min-h-[26rem]"
                   />
                 ) : (
@@ -245,9 +257,8 @@ export function FinalCTA() {
   return (
     <section className="relative overflow-hidden bg-charcoal py-24 text-white md:py-36">
       <div className="absolute inset-0 opacity-55">
-        <SiteImage
-          src={heroImages.finalCta.src}
-          alt={heroImages.finalCta.alt}
+        <MediaImage
+          media={getMediaById("ananta-lake-view")!}
           sizes="100vw"
           className="h-full"
         />

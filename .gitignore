@@ -42,3 +42,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local media imports (originals stay here; never hotlink from Drive)
+local-import/*
+!local-import/media-catalog.json
+!local-import/README.md
+!local-import/unsorted/
+local-import/unsorted/*
+!local-import/unsorted/.gitkeep
+!local-import/videos/
+local-import/videos/*
+!local-import/videos/.gitkeep

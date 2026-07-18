@@ -12,7 +12,12 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "media:seed": "node scripts/seed-local-import.mjs",
+    "media:process": "node scripts/process-images.mjs",
+    "media:report": "node scripts/media-report.mjs",
+    "media:og": "node scripts/generate-og.mjs",
+    "media:prepare": "npm run media:seed && npm run media:process && npm run media:og && npm run media:report"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -39,6 +44,7 @@
     "jsdom": "^29.1.1",
     "prettier": "^3.9.5",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"

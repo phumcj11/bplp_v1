@@ -1,6 +1,10 @@
 # คู่มือรูปภาพบ้านพักล่องแพ
 
-Phase 1 ยังไม่มีรูปจริง โฟลเดอร์รูปจึงมีเฉพาะ `.gitkeep` เพื่อรักษาโครงสร้างใน Git ห้ามดาวน์โหลดรูป Stock ใช้รูปจากเว็บไซต์อื่น หรือสร้างรูป AI ที่ทำให้แพและสถานที่ไม่ตรงกับของจริง
+Phase 2 ใช้ **Media Pipeline** ประมวลผลจาก `local-import/` ไปยัง `public/images/processed/` (WebP + AVIF)
+
+อ่านขั้นตอน Import: `MEDIA_IMPORT_GUIDE.md`  
+รายงานคัดเลือก: `MEDIA_SELECTION_REPORT.md`  
+Metadata UI: `src/data/media.ts`
 
 ## หลักเกณฑ์รูป
 

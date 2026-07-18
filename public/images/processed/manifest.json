@@ -1,0 +1,437 @@
+{
+  "generatedAt": "2026-07-18T17:56:08.360Z",
+  "items": [
+    {
+      "id": "raft-exterior",
+      "category": "rafts",
+      "outputDir": "hero",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 768,
+      "consentStatus": "approved",
+      "hasIdentifiablePeople": false,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/hero/raft-exterior-1024.webp",
+          "avif": "/public/images/processed/hero/raft-exterior-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/hero/raft-exterior-1024.webp",
+          "avif": "/public/images/processed/hero/raft-exterior-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/hero/raft-exterior-828.webp",
+          "avif": "/public/images/processed/hero/raft-exterior-828.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/thumbnails/raft-exterior-400.webp",
+          "avif": "/public/images/processed/thumbnails/raft-exterior-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "ananta-lake-view",
+      "category": "landscape",
+      "outputDir": "landscape",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 769,
+      "consentStatus": "approved",
+      "hasIdentifiablePeople": false,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/landscape/ananta-lake-view-1024.webp",
+          "avif": "/public/images/processed/landscape/ananta-lake-view-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/landscape/ananta-lake-view-800.webp",
+          "avif": "/public/images/processed/landscape/ananta-lake-view-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/landscape/ananta-lake-view-600.webp",
+          "avif": "/public/images/processed/landscape/ananta-lake-view-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/thumbnails/ananta-lake-view-400.webp",
+          "avif": "/public/images/processed/thumbnails/ananta-lake-view-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "kids-water-park",
+      "category": "water-park",
+      "outputDir": "activities/water-park",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 769,
+      "consentStatus": "approved",
+      "hasIdentifiablePeople": false,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/activities/water-park/kids-water-park-1024.webp",
+          "avif": "/public/images/processed/activities/water-park/kids-water-park-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/activities/water-park/kids-water-park-800.webp",
+          "avif": "/public/images/processed/activities/water-park/kids-water-park-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/activities/water-park/kids-water-park-600.webp",
+          "avif": "/public/images/processed/activities/water-park/kids-water-park-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 769,
+          "webp": "/public/images/processed/thumbnails/kids-water-park-400.webp",
+          "avif": "/public/images/processed/thumbnails/kids-water-park-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "adult-water-slide",
+      "category": "water-park",
+      "outputDir": "activities/water-park",
+      "orientation": "portrait",
+      "originalWidth": 768,
+      "originalHeight": 1024,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/water-park/adult-water-slide-768.webp",
+          "avif": "/public/images/processed/activities/water-park/adult-water-slide-768.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/water-park/adult-water-slide-768.webp",
+          "avif": "/public/images/processed/activities/water-park/adult-water-slide-768.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/water-park/adult-water-slide-600.webp",
+          "avif": "/public/images/processed/activities/water-park/adult-water-slide-600.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/thumbnails/adult-water-slide-400.webp",
+          "avif": "/public/images/processed/thumbnails/adult-water-slide-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "wet-raft-group",
+      "category": "wet-raft",
+      "outputDir": "activities/wet-raft",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 682,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 682,
+          "webp": "/public/images/processed/activities/wet-raft/wet-raft-group-1024.webp",
+          "avif": "/public/images/processed/activities/wet-raft/wet-raft-group-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 682,
+          "webp": "/public/images/processed/activities/wet-raft/wet-raft-group-800.webp",
+          "avif": "/public/images/processed/activities/wet-raft/wet-raft-group-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 682,
+          "webp": "/public/images/processed/activities/wet-raft/wet-raft-group-600.webp",
+          "avif": "/public/images/processed/activities/wet-raft/wet-raft-group-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 682,
+          "webp": "/public/images/processed/thumbnails/wet-raft-group-400.webp",
+          "avif": "/public/images/processed/thumbnails/wet-raft-group-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "kayak-water-park",
+      "category": "kayak",
+      "outputDir": "activities/kayak",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 768,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/activities/kayak/kayak-water-park-1024.webp",
+          "avif": "/public/images/processed/activities/kayak/kayak-water-park-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/activities/kayak/kayak-water-park-800.webp",
+          "avif": "/public/images/processed/activities/kayak/kayak-water-park-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/activities/kayak/kayak-water-park-600.webp",
+          "avif": "/public/images/processed/activities/kayak/kayak-water-park-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/thumbnails/kayak-water-park-400.webp",
+          "avif": "/public/images/processed/thumbnails/kayak-water-park-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "group-dining",
+      "category": "dining",
+      "outputDir": "activities/dining",
+      "orientation": "portrait",
+      "originalWidth": 768,
+      "originalHeight": 1024,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/dining/group-dining-768.webp",
+          "avif": "/public/images/processed/activities/dining/group-dining-768.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/dining/group-dining-768.webp",
+          "avif": "/public/images/processed/activities/dining/group-dining-768.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/activities/dining/group-dining-600.webp",
+          "avif": "/public/images/processed/activities/dining/group-dining-600.avif"
+        },
+        {
+          "width": 768,
+          "height": 1024,
+          "webp": "/public/images/processed/thumbnails/group-dining-400.webp",
+          "avif": "/public/images/processed/thumbnails/group-dining-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "hero-evening-group",
+      "category": "evening",
+      "outputDir": "landscape",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 536,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 536,
+          "webp": "/public/images/processed/landscape/hero-evening-group-1024.webp",
+          "avif": "/public/images/processed/landscape/hero-evening-group-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 536,
+          "webp": "/public/images/processed/landscape/hero-evening-group-1024.webp",
+          "avif": "/public/images/processed/landscape/hero-evening-group-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 536,
+          "webp": "/public/images/processed/landscape/hero-evening-group-828.webp",
+          "avif": "/public/images/processed/landscape/hero-evening-group-828.avif"
+        },
+        {
+          "width": 1024,
+          "height": 536,
+          "webp": "/public/images/processed/thumbnails/hero-evening-group-400.webp",
+          "avif": "/public/images/processed/thumbnails/hero-evening-group-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "raft-lake-view",
+      "category": "landscape",
+      "outputDir": "landscape",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 768,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/landscape/raft-lake-view-1024.webp",
+          "avif": "/public/images/processed/landscape/raft-lake-view-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/landscape/raft-lake-view-800.webp",
+          "avif": "/public/images/processed/landscape/raft-lake-view-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/landscape/raft-lake-view-600.webp",
+          "avif": "/public/images/processed/landscape/raft-lake-view-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 768,
+          "webp": "/public/images/processed/thumbnails/raft-lake-view-400.webp",
+          "avif": "/public/images/processed/thumbnails/raft-lake-view-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "customer-group",
+      "category": "customer-groups",
+      "outputDir": "reviews",
+      "orientation": "landscape",
+      "originalWidth": 1024,
+      "originalHeight": 679,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 1024,
+          "height": 679,
+          "webp": "/public/images/processed/reviews/customer-group-1024.webp",
+          "avif": "/public/images/processed/reviews/customer-group-1024.avif"
+        },
+        {
+          "width": 1024,
+          "height": 679,
+          "webp": "/public/images/processed/reviews/customer-group-800.webp",
+          "avif": "/public/images/processed/reviews/customer-group-800.avif"
+        },
+        {
+          "width": 1024,
+          "height": 679,
+          "webp": "/public/images/processed/reviews/customer-group-600.webp",
+          "avif": "/public/images/processed/reviews/customer-group-600.avif"
+        },
+        {
+          "width": 1024,
+          "height": 679,
+          "webp": "/public/images/processed/thumbnails/customer-group-400.webp",
+          "avif": "/public/images/processed/thumbnails/customer-group-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "customer-water-activity",
+      "category": "water-park",
+      "outputDir": "reviews",
+      "orientation": "landscape",
+      "originalWidth": 810,
+      "originalHeight": 540,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 810,
+          "height": 540,
+          "webp": "/public/images/processed/reviews/customer-water-activity-810.webp",
+          "avif": "/public/images/processed/reviews/customer-water-activity-810.avif"
+        },
+        {
+          "width": 810,
+          "height": 540,
+          "webp": "/public/images/processed/reviews/customer-water-activity-800.webp",
+          "avif": "/public/images/processed/reviews/customer-water-activity-800.avif"
+        },
+        {
+          "width": 810,
+          "height": 540,
+          "webp": "/public/images/processed/reviews/customer-water-activity-600.webp",
+          "avif": "/public/images/processed/reviews/customer-water-activity-600.avif"
+        },
+        {
+          "width": 810,
+          "height": 540,
+          "webp": "/public/images/processed/thumbnails/customer-water-activity-400.webp",
+          "avif": "/public/images/processed/thumbnails/customer-water-activity-400.avif"
+        }
+      ]
+    },
+    {
+      "id": "hero-raft-group",
+      "category": "customer-groups",
+      "outputDir": "reviews",
+      "orientation": "landscape",
+      "originalWidth": 960,
+      "originalHeight": 668,
+      "consentStatus": "unknown",
+      "hasIdentifiablePeople": true,
+      "outputs": [
+        {
+          "width": 960,
+          "height": 668,
+          "webp": "/public/images/processed/reviews/hero-raft-group-960.webp",
+          "avif": "/public/images/processed/reviews/hero-raft-group-960.avif"
+        },
+        {
+          "width": 960,
+          "height": 668,
+          "webp": "/public/images/processed/reviews/hero-raft-group-800.webp",
+          "avif": "/public/images/processed/reviews/hero-raft-group-800.avif"
+        },
+        {
+          "width": 960,
+          "height": 668,
+          "webp": "/public/images/processed/reviews/hero-raft-group-600.webp",
+          "avif": "/public/images/processed/reviews/hero-raft-group-600.avif"
+        },
+        {
+          "width": 960,
+          "height": 668,
+          "webp": "/public/images/processed/thumbnails/hero-raft-group-400.webp",
+          "avif": "/public/images/processed/thumbnails/hero-raft-group-400.avif"
+        }
+      ]
+    }
+  ]
+}

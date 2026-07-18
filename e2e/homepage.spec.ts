@@ -42,3 +42,26 @@ test("sticky CTA ปรากฏหลัง hero บนมือถือ", asy
   await page.locator("#rafts").scrollIntoViewIfNeeded();
   await expect(page.getByRole("link", { name: "เช็กวันว่าง", exact: true }).last()).toBeVisible();
 });
+
+test("gallery filter ทำงาน", async ({ page }) => {
+  await page.getByRole("heading", { name: "บรรยากาศจริงจากทริปลูกค้า" }).scrollIntoViewIfNeeded();
+  await page.getByRole("tab", { name: "Water Park" }).click();
+  await expect(
+    page.getByRole("button", {
+      name: "เปิดสวนน้ำเด็กพร้อมเครื่องเล่นที่ Ananta Resort",
+    }),
+  ).toBeVisible();
+});
+
+test("ไม่มี broken images ใน viewport แรก", async ({ page }) => {
+  const heroPath = "/images/processed/hero/raft-exterior-1024.webp";
+  const response = await page.request.get(heroPath);
+  expect(response.ok()).toBeTruthy();
+
+  await page.waitForFunction(() => {
+    const hero = document.querySelector<HTMLImageElement>(
+      'img[alt*="แพพักสองชั้น"]',
+    );
+    return Boolean(hero && hero.complete && hero.naturalWidth > 0);
+  });
+});
