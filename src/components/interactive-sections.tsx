@@ -373,7 +373,9 @@ export function Gallery() {
       <div className="shell">
         <p className="eyebrow">REAL MOMENTS</p>
         <h2 className="section-title">บรรยากาศจริงจากทริปลูกค้า</h2>
-        <p className="mt-4 max-w-2xl text-charcoal/65">พื้นที่นี้รอภาพจริงจากบ้านพักล่องแพ และเตรียมโครงสร้างไว้สำหรับเชื่อมแหล่งรูปในอนาคต</p>
+        <p className="mt-4 max-w-2xl text-charcoal/65">
+          ภาพจริงจากบ้านพักล่องแพ ลูกค้า และกิจกรรมบนเขื่อนศรีนครินทร์
+        </p>
         <div className="snap-row mt-8 lg:grid-cols-3">
           {galleryImages.map((image, index) => (
             <button key={image.src} type="button" onClick={() => setActive(image)} className={`overflow-hidden rounded-3xl ${index === 0 || index === 4 ? "lg:row-span-2" : ""}`} aria-label={`เปิด${image.alt}`}>
