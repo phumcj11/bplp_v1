@@ -1,0 +1,44 @@
+import { expect, test } from "@playwright/test";
+
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+});
+
+test("เปิดหน้าแรกและไม่มี horizontal overflow", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "ทริปล่องแพ 2 วัน 1 คืน" })).toBeVisible();
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(false);
+});
+
+test("mobile menu เปิดและปิดด้วย Escape", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "desktop-1280");
+  await page.getByRole("button", { name: "เปิดเมนู" }).click();
+  await expect(page.getByRole("dialog", { name: "เมนูเว็บไซต์" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog", { name: "เมนูเว็บไซต์" })).toBeHidden();
+});
+
+test("เลือกแพและเปิดกิจกรรม", async ({ page }) => {
+  await page.getByRole("button", { name: "16–25 คน" }).click();
+  await expect(page.getByRole("heading", { name: "แพ A4" })).toBeVisible();
+  await page.getByRole("button", { name: /Water Park/ }).first().click();
+  await expect(page.getByRole("dialog", { name: /Water Park/ })).toBeVisible();
+  await page.keyboard.press("Escape");
+});
+
+test("FAQ และ validation แบบฟอร์มทำงาน", async ({ page }) => {
+  const faq = page.getByRole("button", { name: "เด็กคิดราคาอย่างไร?" });
+  await faq.click();
+  await expect(page.getByText("กรุณาสอบถามทีมงาน", { exact: true }).first()).toBeVisible();
+  await page.getByRole("button", { name: "ส่งคำขอเช็กวันว่าง" }).click();
+  await expect(page.getByText("กรุณาเลือกวันที่ต้องการเข้าพัก")).toBeVisible();
+});
+
+test("sticky CTA ปรากฏหลัง hero บนมือถือ", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "desktop-1280" || testInfo.project.name === "tablet-768");
+  await page.locator("#rafts").scrollIntoViewIfNeeded();
+  await expect(page.getByRole("link", { name: "เช็กวันว่าง", exact: true }).last()).toBeVisible();
+});
