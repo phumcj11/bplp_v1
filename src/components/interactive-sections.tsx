@@ -24,6 +24,7 @@ import {
 } from "@/data/images";
 import type { GalleryFilterId, MediaItem } from "@/data/media";
 import { rafts, type Raft } from "@/data/rafts";
+import { startingPriceCondition, startingPriceDisplay } from "@/data/package";
 import { mediaCopy } from "@/data/copy";
 import { ImagePlaceholder, MediaImage } from "./image-placeholder";
 
@@ -145,10 +146,13 @@ export function Header() {
 
 export function PriceBadge() {
   return (
-    <div className="price-impact hero-stagger inline-flex rotate-[-2deg] items-baseline gap-2 border-2 border-charcoal bg-orange px-5 py-3 text-white shadow-brutal">
-      <span className="text-sm font-bold">เริ่มต้น</span>
-      <strong className="font-display text-5xl leading-none md:text-6xl">1,290.-</strong>
-      <span className="font-bold">/ท่าน</span>
+    <div className="price-impact hero-stagger inline-flex rotate-[-2deg] flex-col gap-1 border-2 border-charcoal bg-orange px-5 py-3 text-white shadow-brutal">
+      <div className="inline-flex items-baseline gap-2">
+        <span className="text-sm font-bold">ราคาเริ่มต้น</span>
+        <strong className="font-display text-5xl leading-none md:text-6xl">1,290.-</strong>
+        <span className="font-bold">/ต่อคน</span>
+      </div>
+      <span className="text-xs font-semibold text-white/90">{startingPriceCondition}</span>
     </div>
   );
 }
@@ -196,11 +200,14 @@ export function RaftCard({ raft }: { raft: Raft }) {
             <small className="block">ห้องน้ำ</small>
           </span>
         </div>
-        <p className="text-xl font-black text-orange">เริ่มต้น 1,290 บาท/ท่าน</p>
+        <p className="text-xl font-black text-orange">{startingPriceDisplay}</p>
+        <p className="mt-1 text-sm text-charcoal/65">{startingPriceCondition}</p>
         <p className="mt-1 text-sm text-charcoal/65">
           เสริมได้ประมาณ {raft.approximateExtraGuests.minimum}–{raft.approximateExtraGuests.maximum} คน
         </p>
-        <a href="#availability" className="button button--primary mt-6">เช็กวันว่าง</a>
+        <a href="#availability" className="button button--primary mt-6">
+          เช็กวันว่าง
+        </a>
       </div>
     </motion.article>
   );
@@ -496,9 +503,25 @@ export function FloatingCTA() {
   return (
     <div className={`fixed inset-x-0 bottom-0 z-40 p-2 pb-[max(.5rem,env(safe-area-inset-bottom))] transition-transform md:hidden ${visible ? "translate-y-0" : "translate-y-full"}`}>
       <div className="mx-auto grid max-w-md grid-cols-3 gap-1 rounded-2xl border-2 border-charcoal bg-off-white p-1.5 shadow-[0_-5px_20px_rgb(0_0_0/.18)]">
-        <a href={contactData.phone.href} className="grid min-h-12 place-items-center rounded-xl font-bold"><Phone size={18} />โทรเลย</a>
-        <a href={contactData.line.href} target="_blank" rel="noreferrer" className="grid min-h-12 place-items-center rounded-xl bg-forest font-bold text-white"><MessageCircle size={18} />LINE</a>
-        <a href="#availability" className="grid min-h-12 place-items-center rounded-xl bg-orange px-1 text-center text-sm font-bold text-white">เช็กวันว่าง</a>
+        <a href={contactData.phone.href} className="grid min-h-12 place-items-center rounded-xl font-bold">
+          <Phone size={18} />
+          โทรเลย
+        </a>
+        <a
+          href={contactData.line.href}
+          target="_blank"
+          rel="noreferrer"
+          className="grid min-h-12 place-items-center rounded-xl bg-forest font-bold text-white"
+        >
+          <MessageCircle size={18} />
+          LINE
+        </a>
+        <a
+          href="#availability"
+          className="grid min-h-12 place-items-center rounded-xl bg-orange px-1 text-center text-sm font-bold text-white"
+        >
+          เช็กวันว่าง
+        </a>
       </div>
     </div>
   );

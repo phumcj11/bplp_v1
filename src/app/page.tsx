@@ -18,54 +18,15 @@ import {
   TripExperience,
   WhyChooseUs,
 } from "@/components/static-sections";
-import { contactData } from "@/data/contact";
-import { faqs } from "@/data/faqs";
-import { siteData } from "@/data/site";
+import { JsonLd } from "@/components/seo/seo-blocks";
+import { buildHomeStructuredData } from "@/lib/seo/structured-data";
 
 export default function Home() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const structuredData = [
-    {
-      "@context": "https://schema.org",
-      "@type": ["LocalBusiness", "LodgingBusiness"],
-      name: siteData.name.th,
-      alternateName: siteData.name.en,
-      url: siteUrl,
-      telephone: contactData.phone.display,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "เขื่อนศรีนครินทร์",
-        addressRegion: "กาญจนบุรี",
-        addressCountry: "TH",
-      },
-      priceRange: "เริ่มต้น 1,290 บาท/ท่าน",
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: { "@type": "Answer", text: faq.answer },
-      })),
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "หน้าแรก", item: siteUrl },
-      ],
-    },
-  ];
+  const structuredData = buildHomeStructuredData();
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
+      <JsonLd data={structuredData} />
       <Hero />
       <Header />
       <DeferredSiteEffects>

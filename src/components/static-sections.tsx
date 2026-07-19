@@ -119,12 +119,15 @@ export function PackageValue() {
       <div className="shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="reveal lg:sticky lg:top-28">
           <p className="font-display tracking-widest text-white">PACKAGE VALUE</p>
-          <h2 className="section-title mt-2">1,290 บาท ได้อะไรบ้าง?</h2>
+          <h2 className="section-title mt-2">ราคาเริ่มต้น 1,290 บาทต่อคน ได้อะไรบ้าง?</h2>
           <div className="mt-6 inline-block rotate-[-2deg] border-2 border-charcoal bg-off-white px-5 py-4 shadow-brutal">
-            <span className="block font-bold">เริ่มต้นเพียง</span>
+            <span className="block font-bold">ราคาเริ่มต้น</span>
             <strong className="font-display text-6xl leading-none">1,290.-</strong>
-            <span className="font-bold"> / ท่าน</span>
+            <span className="font-bold"> / ต่อคน</span>
           </div>
+          <p className="mt-4 max-w-md text-sm font-semibold text-white/90">
+            ราคาขึ้นอยู่กับประเภทแพและจำนวนผู้เข้าพัก
+          </p>
           <div className="mt-6 hidden gap-3 md:grid md:grid-cols-2">
             {supportImages.slice(0, 4).map((image, index) => (
               <MediaImage
@@ -305,9 +308,12 @@ export function Footer() {
         <div>
           <h2 className="font-bold text-orange">เมนูเว็บไซต์</h2>
           <nav className="mt-4 grid grid-cols-2 gap-3" aria-label="เมนูท้ายเว็บไซต์">
-            <a href="#rafts">แพของเรา</a><a href="#activities">กิจกรรม</a>
-            <a href="#itinerary">โปรแกรมทัวร์</a><a href="#gallery">แกลเลอรี</a>
-            <a href="#faq">FAQ</a><a href="#availability">เช็กวันว่าง</a>
+            <a href="/packages">แพ็กเกจ</a>
+            <a href="/rafts">เลือกแพ</a>
+            <a href="/activities">กิจกรรม</a>
+            <a href="/itinerary">โปรแกรมทัวร์</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">ติดต่อ</a>
           </nav>
           <div className="mt-6 flex flex-wrap gap-4 text-sm text-white/60">
             <a href="/privacy">Privacy Policy</a>
