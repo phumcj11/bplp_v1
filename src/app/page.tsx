@@ -1,4 +1,5 @@
 import { AvailabilityForm } from "@/components/availability-form";
+import { DeferredSiteEffects } from "@/components/deferred-site-effects";
 import {
   ActivitySlider,
   FAQAccordion,
@@ -6,9 +7,7 @@ import {
   Gallery,
   Header,
   RaftSelector,
-  ReviewCarousel,
 } from "@/components/interactive-sections";
-import { Preloader, SiteEffects } from "@/components/site-effects";
 import {
   FinalCTA,
   Footer,
@@ -67,11 +66,10 @@ export default function Home() {
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
-      <Preloader />
+      <Hero />
       <Header />
-      <SiteEffects>
+      <DeferredSiteEffects>
         <main>
-          <Hero />
           <QuickSocialProof />
           <PackageValue />
           <TripExperience />
@@ -79,7 +77,6 @@ export default function Home() {
           <ActivitySlider />
           <ItineraryTimeline />
           <Gallery />
-          <ReviewCarousel />
           <WhyChooseUs />
           <FAQAccordion />
           <AvailabilityForm />
@@ -87,7 +84,7 @@ export default function Home() {
         </main>
         <Footer />
         <FloatingCTA />
-      </SiteEffects>
+      </DeferredSiteEffects>
     </>
   );
 }

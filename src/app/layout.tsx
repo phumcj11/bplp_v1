@@ -5,8 +5,9 @@ import "./globals.css";
 const kanit = Kanit({
   variable: "--font-kanit",
   subsets: ["thai", "latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["600", "700", "900"],
   display: "swap",
+  adjustFontFallback: true,
 });
 
 const anton = Anton({
@@ -54,7 +55,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th" className={`${kanit.variable} ${anton.variable}`}>
+    <html lang="th" className={`${kanit.variable} ${anton.variable} js-animations-pending`}>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/processed/hero/raft-exterior-828.avif"
+          type="image/avif"
+          fetchPriority="high"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

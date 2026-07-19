@@ -66,7 +66,7 @@ a {
 
 .section {
   position: relative;
-  padding-block: clamp(4.5rem, 9vw, 8rem);
+  padding-block: clamp(3.25rem, 7vw, 6rem);
   overflow: clip;
 }
 
@@ -269,11 +269,16 @@ a {
 }
 
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js-animations-pending .reveal:not(.is-visible) {
   opacity: 0;
   transform: translateY(24px);
 }
 
-.reveal.is-visible {
+html.js-animations-ready .reveal.is-visible {
   opacity: 1;
   transform: none;
   transition:
@@ -337,6 +342,11 @@ a {
   }
 
   .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  html.js-animations-pending .reveal:not(.is-visible) {
     opacity: 1;
     transform: none;
   }

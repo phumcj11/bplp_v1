@@ -59,9 +59,9 @@ test("ไม่มี broken images ใน viewport แรก", async ({ page })
   expect(response.ok()).toBeTruthy();
 
   await page.waitForFunction(() => {
-    const hero = document.querySelector<HTMLImageElement>(
-      'img[alt*="แพพักสองชั้น"]',
-    );
-    return Boolean(hero && hero.complete && hero.naturalWidth > 0);
+    const hero = document.querySelector('[role="img"][aria-label*="แพพักสองชั้น"]');
+    if (!hero) return false;
+    const style = window.getComputedStyle(hero);
+    return style.backgroundImage.includes("raft-exterior");
   });
 });

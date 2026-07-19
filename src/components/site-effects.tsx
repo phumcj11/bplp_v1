@@ -1,145 +1,153 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
-function refreshScrollTriggers() {
+function refreshScrollTriggers(ScrollTrigger: typeof import("gsap/ScrollTrigger").ScrollTrigger) {
   ScrollTrigger.refresh();
 }
 
-export function Preloader() {
-  const [visible, setVisible] = useState(true);
+function markAnimationsReady() {
+  document.documentElement.classList.remove("js-animations-pending");
+  document.documentElement.classList.add("js-animations-ready");
+}
 
-  useEffect(() => {
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (sessionStorage.getItem("bplp-intro") || reduced) {
-      const immediateTimer = window.setTimeout(() => setVisible(false), 0);
-      return () => window.clearTimeout(immediateTimer);
-    }
-    sessionStorage.setItem("bplp-intro", "shown");
-    const timer = window.setTimeout(() => setVisible(false), 1150);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  if (!visible) return null;
-
-  return (
-    <div
-      className="preloader fixed inset-0 z-[100] grid place-items-center bg-charcoal text-white"
-      aria-label="กำลังเปิดเว็บไซต์บ้านพักล่องแพ"
-      role="status"
-    >
-      <div className="text-center">
-        <span className="font-display text-3xl tracking-wide">
-          BAAN PAK LONG PAE
-        </span>
-        <span className="mt-2 block font-bold text-orange">บ้านพักล่องแพ</span>
-        <div className="mt-7 flex justify-center gap-1" aria-hidden="true">
-          {[0, 1, 2, 3, 4].map((item) => (
-            <span
-              key={item}
-              className="size-3 animate-bounce rounded-full bg-lake"
-              style={{ animationDelay: `${item * 90}ms` }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+function showAllReveals() {
+  document
+    .querySelectorAll(".reveal")
+    .forEach((node) => node.classList.add("is-visible"));
+  markAnimationsReady();
 }
 
 export function SiteEffects({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    if (reduced) {
-      document
-        .querySelectorAll(".reveal")
-        .forEach((node) => node.classList.add("is-visible"));
-      return;
-    }
+  useEffect(() => {
+    let cancelled = false;
+    let context: { revert: () => void } | undefined;
+    let visibilityHandler: (() => void) | undefined;
+    let idleId = 0;
+    let timerId = 0;
 
-    const context = gsap.context(() => {
-      gsap.fromTo(
-        ".hero-visual",
-        { scale: 1.08 },
-        { scale: 1, duration: 1.4, ease: "power2.out" },
-      );
-      gsap.from(".hero-stagger", {
-        y: 34,
-        opacity: 0,
-        duration: mobile ? 0.55 : 0.75,
-        stagger: mobile ? 0.08 : 0.12,
-        ease: "power3.out",
-      });
-      gsap.from(".price-impact", {
-        scale: mobile ? 1.02 : 1.08,
-        opacity: 0,
-        duration: mobile ? 0.45 : 0.6,
-        delay: 0.35,
-        ease: "back.out(1.4)",
-      });
-      gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
-        ScrollTrigger.create({
-          trigger: element,
-          start: "top 88%",
-          once: true,
-          onEnter: () => element.classList.add("is-visible"),
-        });
-      });
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element) => {
-        if (mobile) return;
-        gsap.to(element, {
-          yPercent: -4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: element,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.45,
-          },
-        });
-      });
-      gsap.utils
-        .toArray<HTMLElement>("[data-timeline-card]")
-        .forEach((element) => {
-          ScrollTrigger.create({
-            trigger: element,
-            start: "top 68%",
-            end: "bottom 45%",
-            toggleClass: "timeline-active",
+    const cleanup = () => {
+      cancelled = true;
+      if (idleId) window.cancelIdleCallback(idleId);
+      if (timerId) window.clearTimeout(timerId);
+      if (visibilityHandler) {
+        document.removeEventListener("visibilitychange", visibilityHandler);
+      }
+      context?.revert();
+    };
+
+    const init = async () => {
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (reduced) {
+        showAllReveals();
+        return;
+      }
+
+      try {
+        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+        if (cancelled) return;
+
+        gsap.registerPlugin(ScrollTrigger);
+        const mobile = window.matchMedia("(max-width: 767px)").matches;
+
+        context = gsap.context(() => {
+          if (!mobile) {
+            gsap.fromTo(
+              ".hero-visual",
+              { scale: 1.04 },
+              { scale: 1, duration: 0.9, ease: "power2.out" },
+            );
+          }
+          gsap.from(".hero-stagger", {
+            y: mobile ? 16 : 24,
+            opacity: 0,
+            duration: mobile ? 0.35 : 0.5,
+            stagger: mobile ? 0.05 : 0.08,
+            ease: "power3.out",
+          });
+          gsap.from(".price-impact", {
+            scale: mobile ? 1.01 : 1.04,
+            opacity: 0,
+            duration: mobile ? 0.35 : 0.45,
+            delay: 0.15,
+            ease: "back.out(1.4)",
+          });
+          gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
+            ScrollTrigger.create({
+              trigger: element,
+              start: "top 88%",
+              once: true,
+              onEnter: () => element.classList.add("is-visible"),
+            });
+          });
+          gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element) => {
+            if (mobile) return;
+            gsap.to(element, {
+              yPercent: -4,
+              ease: "none",
+              scrollTrigger: {
+                trigger: element,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.45,
+              },
+            });
+          });
+          gsap.utils
+            .toArray<HTMLElement>("[data-timeline-card]")
+            .forEach((element) => {
+              ScrollTrigger.create({
+                trigger: element,
+                start: "top 68%",
+                end: "bottom 45%",
+                toggleClass: "timeline-active",
+              });
+            });
+        }, root);
+
+        markAnimationsReady();
+
+        const images = root.current?.querySelectorAll("img") ?? [];
+        images.forEach((img) => {
+          if (img.complete) return;
+          img.addEventListener("load", () => refreshScrollTriggers(ScrollTrigger), {
+            once: true,
           });
         });
-    }, root);
 
-    const images = root.current?.querySelectorAll("img") ?? [];
-    images.forEach((img) => {
-      if (img.complete) return;
-      img.addEventListener("load", refreshScrollTriggers, { once: true });
-    });
-
-    const onVisibility = () => {
-      if (document.hidden) {
-        ScrollTrigger.getAll().forEach((trigger) => trigger.disable(false));
-      } else {
-        ScrollTrigger.getAll().forEach((trigger) => trigger.enable(false));
-        refreshScrollTriggers();
+        visibilityHandler = () => {
+          if (document.hidden) {
+            ScrollTrigger.getAll().forEach((trigger) => trigger.disable(false));
+          } else {
+            ScrollTrigger.getAll().forEach((trigger) => trigger.enable(false));
+            refreshScrollTriggers(ScrollTrigger);
+          }
+        };
+        document.addEventListener("visibilitychange", visibilityHandler);
+      } catch {
+        showAllReveals();
       }
     };
-    document.addEventListener("visibilitychange", onVisibility);
 
-    return () => {
-      document.removeEventListener("visibilitychange", onVisibility);
-      context.revert();
-    };
+    const canIdle = typeof window.requestIdleCallback === "function";
+    if (canIdle) {
+      idleId = window.requestIdleCallback(() => {
+        void init();
+      }, { timeout: 1200 });
+      return cleanup;
+    }
+
+    timerId = window.setTimeout(() => {
+      void init();
+    }, 1);
+    return cleanup;
   }, []);
 
   return <div ref={root} className="contents">{children}</div>;

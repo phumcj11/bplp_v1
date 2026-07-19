@@ -78,10 +78,10 @@ export const mediaItems = [
     alt: "แพพักสองชั้นบ้านพักล่องแพบนเขื่อนศรีนครินทร์",
     category: "rafts",
     orientation: "landscape",
-    width: 1280,
-    height: 960,
+    width: 1024,
+    height: 768,
     featured: true,
-    priority: true,
+    priority: false,
     caption: "แพพักส่วนตัวบนผืนน้ำเขื่อนศรีนครินทร์",
     source: "public/images/rafts/raft-exterior.png",
     consentStatus: "approved",
@@ -292,8 +292,31 @@ export const experienceMediaIds = [
   "wet-raft-group",
   "group-dining",
   null,
-  "raft-lake-view",
+  "ananta-lake-view",
 ] as const;
+
+/**
+ * Map raft IDs (A1–A4) to confirmed media IDs when verified photos are available.
+ * Until then, `getRaftMedia()` falls back to the generic approved raft image.
+ */
+export const raftMediaById: Partial<Record<string, string>> = {
+  // A1: "raft-a1",
+  // A2: "raft-a2",
+  // A3: "raft-a3",
+  // A4: "raft-a4",
+};
+
+export function getRaftMedia(raftId?: string): MediaItem {
+  const mappedId = raftId ? raftMediaById[raftId] : undefined;
+  if (mappedId) {
+    const mapped = getMediaById(mappedId);
+    if (mapped) {
+      return mapped;
+    }
+  }
+
+  return heroMedia;
+}
 
 export const packageValueMediaIds = [
   "raft-exterior",
@@ -308,10 +331,6 @@ export function getMediaById(id: string): MediaItem | undefined {
 
 export function getActivityMedia(activityId: ActivityId): MediaItem | undefined {
   return activityMediaMap[activityId];
-}
-
-export function getRaftMedia(): MediaItem {
-  return heroMedia;
 }
 
 export function isPublicGalleryMedia(item: MediaItem): boolean {

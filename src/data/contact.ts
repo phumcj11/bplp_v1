@@ -9,7 +9,7 @@ export interface ContactData {
   };
   readonly facebook: {
     readonly displayName: string;
-    readonly href: null;
+    readonly href: string;
   };
   readonly website: {
     readonly displayName: string;
@@ -28,7 +28,7 @@ export const contactData = {
   },
   facebook: {
     displayName: "บ้านพักล่องแพ ล่องแพกาญจนบุรี แพเขื่อนศรีนครินทร์",
-    href: null,
+    href: "https://www.facebook.com/baanpaklongpae",
   },
   website: {
     displayName: "www.baanpaklongpae.com",

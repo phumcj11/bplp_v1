@@ -13,13 +13,14 @@ import {
 import { contactData } from "@/data/contact";
 import {
   experienceMediaIds,
-  heroMedia,
   packageValueMediaIds,
   getMediaById,
   getSocialProofMedia,
 } from "@/data/images";
 import { itinerary } from "@/data/itinerary";
 import { siteData } from "@/data/site";
+import { mediaCopy } from "@/data/copy";
+import { HeroImage } from "./hero-image";
 import { ImagePlaceholder, MediaImage } from "./image-placeholder";
 import { PriceBadge } from "./interactive-sections";
 
@@ -29,14 +30,8 @@ export function Hero() {
       id="home"
       className="paper-edge relative flex min-h-[760px] items-end overflow-hidden bg-charcoal pb-18 pt-28 text-white md:min-h-[820px] md:items-center"
     >
-      <div className="hero-visual absolute inset-0">
-        <MediaImage
-          media={heroMedia}
-          priority
-          sizes="100vw"
-          className="h-full"
-          imageClassName="object-center"
-        />
+      <div className="hero-visual absolute inset-0 min-h-full bg-charcoal">
+        <HeroImage />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/45 to-charcoal/20 md:bg-gradient-to-r md:from-charcoal md:via-charcoal/70 md:to-transparent" />
       </div>
       <div className="pointer-events-none absolute -right-16 top-32 size-56 rounded-full border-[28px] border-orange/70 md:right-[8%]" aria-hidden="true" />
@@ -48,7 +43,7 @@ export function Hero() {
           <div className="hero-stagger mb-4 inline-block rotate-2 bg-white px-4 py-2 font-black text-charcoal shadow-brutal md:ml-3">
             2 วัน 1 คืน
           </div>
-          <h1 className="hero-stagger max-w-[11ch] text-[clamp(3.4rem,11vw,7.8rem)] font-black leading-[0.88] tracking-[-0.055em]">
+          <h1 className="hero-stagger max-w-[11ch] text-[clamp(3.4rem,11vw,7.8rem)] font-black leading-[0.88] tracking-[-0.055em] [font-synthesis:weight]">
             ทริปล่องแพ 2 วัน 1 คืน
           </h1>
           <p className="hero-stagger mt-5 max-w-xl text-xl font-semibold md:text-2xl">
@@ -92,6 +87,7 @@ export function QuickSocialProof() {
                 media={image}
                 className="min-h-[16rem]"
                 sizes="(max-width: 768px) 83vw, 25vw"
+                loading="lazy"
               />
             </div>
           ))}
@@ -169,7 +165,7 @@ export function TripExperience() {
       <div className="shell">
         <p className="eyebrow">ONE TRIP, ALL THE MOMENTS</p>
         <h2 className="section-title">จากขึ้นแพ ถึงเช้าวิวเขื่อน</h2>
-        <div className="mt-12 grid gap-14">
+        <div className="mt-10 grid gap-10">
           {experiences.map(([title, copy], index) => (
             <article key={title} className="reveal grid items-center gap-6 md:grid-cols-2">
               <div className={index % 2 ? "md:order-2" : ""} data-parallax>
@@ -180,7 +176,7 @@ export function TripExperience() {
                   />
                 ) : (
                   <ImagePlaceholder
-                    label={`ภาพจริง: ${title}`}
+                    label={mediaCopy.genericTripMoment}
                     className="rounded-[2rem]"
                   />
                 )}
@@ -293,7 +289,16 @@ export function Footer() {
             <li><a className="inline-flex items-center gap-2 hover:text-orange" href={contactData.phone.href}><Phone size={18} />{contactData.phone.display}</a></li>
             <li><a className="inline-flex items-center gap-2 hover:text-orange" href={contactData.line.href} target="_blank" rel="noreferrer"><MessageCircle size={18} />LINE {contactData.line.id}</a></li>
             <li className="flex gap-2 text-white/75"><MapPin className="mt-1 shrink-0" size={18} />{contactData.location}</li>
-            <li className="text-white/75">Facebook: {contactData.facebook.displayName}</li>
+            <li>
+              <a
+                className="inline-flex items-center gap-2 hover:text-orange"
+                href={contactData.facebook.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Facebook: {contactData.facebook.displayName}
+              </a>
+            </li>
             <li className="text-white/75">{contactData.website.displayName}</li>
           </ul>
         </div>
@@ -301,7 +306,7 @@ export function Footer() {
           <h2 className="font-bold text-orange">เมนูเว็บไซต์</h2>
           <nav className="mt-4 grid grid-cols-2 gap-3" aria-label="เมนูท้ายเว็บไซต์">
             <a href="#rafts">แพของเรา</a><a href="#activities">กิจกรรม</a>
-            <a href="#itinerary">โปรแกรมทัวร์</a><a href="#reviews">รีวิว</a>
+            <a href="#itinerary">โปรแกรมทัวร์</a><a href="#gallery">แกลเลอรี</a>
             <a href="#faq">FAQ</a><a href="#availability">เช็กวันว่าง</a>
           </nav>
           <div className="mt-6 flex flex-wrap gap-4 text-sm text-white/60">

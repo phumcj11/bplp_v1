@@ -169,11 +169,14 @@ export function AvailabilityForm() {
             {fieldError("message")}
           </label>
 
-          <div className="sr-only" aria-hidden="true">
-            <label>
-              Website
-              <input tabIndex={-1} autoComplete="off" {...register("website")} />
-            </label>
+          <div hidden>
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              {...register("website")}
+            />
           </div>
 
           <label className="mt-5 flex cursor-pointer items-start gap-3 text-base">

@@ -16,7 +16,7 @@ export function ImagePlaceholder({
     <div
       className={`image-placeholder ${className}`}
       role="img"
-      aria-label={`พื้นที่สำหรับ${label}`}
+      aria-label={label}
     >
       <span className="image-placeholder__sun" aria-hidden="true" />
       <span className="image-placeholder__mountain" aria-hidden="true" />
@@ -35,6 +35,7 @@ type SiteImageProps = {
   className?: string;
   imageClassName?: string;
   priority?: boolean;
+  loading?: "lazy" | "eager";
   sizes?: string;
 };
 
@@ -44,6 +45,7 @@ export function SiteImage({
   className = "",
   imageClassName = "",
   priority = false,
+  loading,
   sizes = "(max-width: 768px) 100vw, 50vw",
 }: SiteImageProps) {
   return (
@@ -53,6 +55,7 @@ export function SiteImage({
         alt={alt}
         fill
         priority={priority}
+        loading={priority ? undefined : loading ?? "lazy"}
         sizes={sizes}
         className={`object-cover ${imageClassName}`}
       />
@@ -65,12 +68,14 @@ export function MediaImage({
   className = "",
   imageClassName = "",
   priority,
+  loading,
   sizes,
 }: {
   media: MediaItem | SiteImageData;
   className?: string;
   imageClassName?: string;
   priority?: boolean;
+  loading?: "lazy" | "eager";
   sizes?: string;
 }) {
   const src =
@@ -85,6 +90,7 @@ export function MediaImage({
       className={className}
       imageClassName={imageClassName}
       priority={priority ?? ("priority" in media ? media.priority : false)}
+      loading={loading}
       sizes={sizes}
     />
   );

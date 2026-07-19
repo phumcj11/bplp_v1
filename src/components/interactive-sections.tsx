@@ -24,6 +24,7 @@ import {
 } from "@/data/images";
 import type { GalleryFilterId, MediaItem } from "@/data/media";
 import { rafts, type Raft } from "@/data/rafts";
+import { mediaCopy } from "@/data/copy";
 import { ImagePlaceholder, MediaImage } from "./image-placeholder";
 
 const nav = [
@@ -31,7 +32,7 @@ const nav = [
   ["แพของเรา", "#rafts"],
   ["กิจกรรม", "#activities"],
   ["โปรแกรมทัวร์", "#itinerary"],
-  ["รีวิว", "#reviews"],
+  ["แกลเลอรี", "#gallery"],
   ["FAQ", "#faq"],
   ["ติดต่อ", "#contact"],
 ] as const;
@@ -155,7 +156,7 @@ export function PriceBadge() {
 const rangeLabels = ["8–14 คน", "16–25 คน", "32–45 คน", "40–60 คน"];
 
 export function RaftCard({ raft }: { raft: Raft }) {
-  const raftMedia = getRaftMedia();
+  const raftMedia = getRaftMedia(raft.id);
 
   return (
     <motion.article
@@ -172,8 +173,7 @@ export function RaftCard({ raft }: { raft: Raft }) {
           sizes="(max-width: 768px) 100vw, 50vw"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/90 to-transparent p-4 text-white">
-          <p className="text-sm font-bold text-orange">รอรูปแพ {raft.id}</p>
-          <p className="text-xs text-white/80">ภาพแสดงแพบ้านพักล่องแพทั่วไป ยังไม่ยืนยันประเภทแพจากภาพ</p>
+          <p className="text-sm font-bold text-orange">{mediaCopy.genericRaft}</p>
         </div>
       </div>
       <div className="flex flex-col justify-center p-6 md:p-9">
@@ -286,7 +286,7 @@ export function ActivityBottomSheet({
               />
             ) : (
               <ImagePlaceholder
-                label={`ภาพจริง ${activity.name}`}
+                label={mediaCopy.genericActivity}
                 className="rounded-2xl"
               />
             )}
@@ -326,7 +326,7 @@ export function ActivitySlider() {
                   />
                 ) : (
                   <ImagePlaceholder
-                    label={`ภาพจริง ${activity.name}`}
+                    label={mediaCopy.genericActivity}
                     className="absolute inset-0 h-full min-h-0 border-0 transition duration-500 group-hover:scale-105"
                   />
                 )}
@@ -378,15 +378,13 @@ export function Gallery() {
   const [active, setActive] = useState<MediaItem | null>(null);
   const [filter, setFilter] = useState<GalleryFilterId>("all");
   const images = filterGalleryMedia(filter);
+  const compactLayout = images.length <= 3;
 
   return (
-    <section className="section bg-off-white">
+    <section id="gallery" className="section bg-off-white">
       <div className="shell">
         <p className="eyebrow">REAL MOMENTS</p>
         <h2 className="section-title">บรรยากาศจริงจากทริปลูกค้า</h2>
-        <p className="mt-4 max-w-2xl text-charcoal/65">
-          แสดงเฉพาะภาพที่อนุญาตหรือไม่มีใบหน้าชัด — ภาพอื่นรอตรวจสอบสิทธิ์
-        </p>
         <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="กรองแกลเลอรี">
           {galleryFilters.map((item) => (
             <button
@@ -401,12 +399,36 @@ export function Gallery() {
             </button>
           ))}
         </div>
-        <div className="snap-row mt-8 lg:grid-cols-3">
+        <div
+          className={
+            compactLayout
+              ? "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              : "snap-row mt-8 lg:grid-cols-3"
+          }
+        >
           {images.map((image, index) => (
-            <button key={image.id} type="button" onClick={() => setActive(image)} className={`overflow-hidden rounded-3xl ${index === 0 || index === images.length - 1 ? "lg:row-span-2" : ""}`} aria-label={`เปิด${image.alt}`}>
+            <button
+              key={image.id}
+              type="button"
+              onClick={() => setActive(image)}
+              className={`overflow-hidden rounded-3xl ${
+                !compactLayout && (index === 0 || index === images.length - 1)
+                  ? "lg:row-span-2"
+                  : compactLayout && index === 0
+                    ? "sm:col-span-2 lg:col-span-2"
+                    : ""
+              }`}
+              aria-label={`เปิด${image.alt}`}
+            >
               <MediaImage
                 media={image}
-                className={`min-h-[22rem] ${index === 0 || index === images.length - 1 ? "lg:min-h-[38rem]" : ""}`}
+                className={`min-h-[22rem] ${
+                  !compactLayout && (index === 0 || index === images.length - 1)
+                    ? "lg:min-h-[38rem]"
+                    : compactLayout && index === 0
+                      ? "min-h-[24rem] sm:min-h-[28rem]"
+                      : ""
+                }`}
                 sizes="(max-width: 768px) 83vw, 33vw"
               />
             </button>
@@ -414,35 +436,6 @@ export function Gallery() {
         </div>
       </div>
       <Lightbox image={active} onClose={() => setActive(null)} />
-    </section>
-  );
-}
-
-export function ReviewCarousel() {
-  const galleryPreview = filterGalleryMedia("all").slice(0, 3);
-
-  return (
-    <section id="reviews" className="section bg-deep-water text-white">
-      <div className="shell">
-        <p className="eyebrow !text-warm-orange">REAL TRIP PHOTOS</p>
-        <h2 className="section-title">ภาพจริงจากทริปลูกค้า</h2>
-        <p className="mt-4 max-w-2xl text-white/70">
-          ไม่มีข้อความรีวิวสร้างขึ้น — แสดงเฉพาะภาพที่ผ่านการคัดเลือกและสิทธิ์เผยแพร่
-        </p>
-        <div className="snap-row mt-8 lg:grid-cols-3">
-          {galleryPreview.map((image) => (
-            <MediaImage
-              key={image.id}
-              media={image}
-              className="min-h-[16rem] rounded-3xl border border-white/20"
-              sizes="(max-width: 768px) 83vw, 33vw"
-            />
-          ))}
-        </div>
-        <p className="mt-6 text-center text-sm text-white/60">
-          หากมีข้อความรีวิวจริง จะเพิ่มใน `src/data/reviews.ts` โดยไม่แก้ความหมาย
-        </p>
-      </div>
     </section>
   );
 }
